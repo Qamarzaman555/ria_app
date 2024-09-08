@@ -46,9 +46,9 @@ class DeviceListScreen extends StatelessWidget {
                   return Flexible(
                     child: ListView.separated(
                       padding: const EdgeInsets.all(AppSizes.defaultSpace),
-                      itemCount: controller.scanResults.length,
+                      itemCount: controller.filteredResults.length,
                       itemBuilder: (context, index) {
-                        final device = controller.scanResults[index].device;
+                        final device = controller.filteredResults[index].device;
                         return GestureDetector(
                           onTap: () {
                             controller.connectToDevice(device);

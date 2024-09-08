@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +13,7 @@ import '../../../connected_device/view/connected_device.dart';
 class BluetoothController extends GetxController {
   var bluetoothState = BluetoothAdapterState.unknown.obs;
   var scanResults = <ScanResult>[].obs;
-  // var filteredResults = <ScanResult>[].obs;
+  var filteredResults = <ScanResult>[].obs;
   RxBool isConnected = false.obs;
   BluetoothDevice? connectedDevice;
 
@@ -53,8 +55,10 @@ class BluetoothController extends GetxController {
       FlutterBluePlus.scanResults.listen((results) {
         scanResults.value = results;
       });
-      // filteredResults.assignAll(
-      //     scanResults.where((device) => device.device.platformName.isNotEmpty));
+      filteredResults.assignAll(
+          scanResults.where((check) => check.device.platformName.isNotEmpty));
+
+      log(filteredResults.length.toString());
 
       // Wait for 4 to 5 seconds to ensure the loader is visible
       await Future.delayed(const Duration(seconds: 4));

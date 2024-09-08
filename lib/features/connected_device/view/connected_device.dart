@@ -22,7 +22,7 @@ class ConnectedDeviceScreen extends StatelessWidget {
               children: [
                 Flexible(
                   child: AppHeader(
-                      header: Text("Available Devices",
+                      header: Text("Connected Device",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.ubuntu(
                               fontSize: 24,
