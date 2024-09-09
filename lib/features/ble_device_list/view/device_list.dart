@@ -16,7 +16,6 @@ class DeviceListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final BluetoothController controller = Get.find();
     return Scaffold(
-        // appBar: AppBar(title: const Text('Available Devices')),
         body: AppBackground(
           child: Column(
             children: [

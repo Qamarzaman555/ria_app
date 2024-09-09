@@ -7,6 +7,7 @@ import '../../../../core/bluetooth/bluetooth.dart';
 import '../../../../core/permissions/permissoins.dart';
 import '../../../../utils/popups/app_full_screen_loader.dart';
 import '../../../connecting/view/connecting.dart';
+import '../../../home/view/home.dart';
 import '../../../scanning/view/scanning.dart';
 import '../../../connected_device/view/connected_device.dart';
 
@@ -89,6 +90,7 @@ class BluetoothController extends GetxController {
 
       AppFullScreenLoader.stopLoading();
       Get.to(const ConnectedDeviceScreen());
+      Get.to(Home(connectedDevice: connectedDevice!));
     } catch (e) {
       Get.snackbar('Connection Error', 'Failed to connect to device');
       AppFullScreenLoader.stopLoading();
