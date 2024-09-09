@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/app_background/app_background.dart';
+import '../../../utils/app_styles.dart';
 
 class Connecting extends StatelessWidget {
   const Connecting({super.key});
@@ -14,10 +14,8 @@ class Connecting extends StatelessWidget {
           padding: const EdgeInsets.only(top: 40, bottom: 60),
           child: Center(
             child: Text("Connecting...",
-                style: GoogleFonts.lato(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white)),
+                style:
+                    AppStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold)),
           ),
         ),
       ),

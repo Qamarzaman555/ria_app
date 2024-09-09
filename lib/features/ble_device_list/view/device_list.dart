@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../../common/app_background/app_background.dart';
 import '../../../common/app_headers/app_header.dart';
 import '../../../utils/app_sizes.dart';
+import '../../../utils/app_styles.dart';
 import '../../scan/presentation/controller/ble_controller.dart';
 import '../../../common/bluetooth_diabled/bluetooth_offscreen.dart';
 
@@ -24,10 +24,7 @@ class DeviceListScreen extends StatelessWidget {
                 child: AppHeader(
                   header: Text("Available Devices",
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.ubuntu(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white)),
+                      style: AppStyles.headlineMedium),
                 ),
               ),
               Obx(() {
@@ -40,7 +37,9 @@ class DeviceListScreen extends StatelessWidget {
                   return const BluetoothOffScreen(
                       status: 'Bluetooth is Turning On!');
                 } else if (controller.scanResults.isEmpty) {
-                  return const Center(child: Text('No devices found'));
+                  return Center(
+                      child: Text('No devices found',
+                          style: AppStyles.headlineMedium));
                 } else {
                   return Flexible(
                     child: ListView.separated(
@@ -65,17 +64,11 @@ class DeviceListScreen extends StatelessWidget {
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Text(
-                                    device.platformName.isEmpty
-                                        ? 'Unknown Device'
-                                        : device.platformName,
-                                    textAlign: TextAlign.start,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelLarge!
-                                        .apply(
-                                            color: Colors.white,
-                                            fontSizeDelta: 2),
-                                  ),
+                                      device.platformName.isEmpty
+                                          ? 'Unknown Device'
+                                          : device.platformName,
+                                      textAlign: TextAlign.start,
+                                      style: AppStyles.labelLarge),
                                 ],
                               )),
                         );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../utils/app_images.dart';
+import '../../../../utils/app_styles.dart';
 
 class HeaderWidget extends StatelessWidget {
   const HeaderWidget({
@@ -14,11 +15,7 @@ class HeaderWidget extends StatelessWidget {
       children: [
         Image.asset(AppImages.wirelismLogo),
         const SizedBox(width: 4),
-        Text("Wirelism",
-            style: Theme.of(context).textTheme.headlineMedium!.copyWith(
-                fontSize: 36,
-                fontWeight: FontWeight.w700,
-                color: Colors.white)),
+        Text("Wirelism", style: AppStyles.headlineStyle),
       ],
     );
   }

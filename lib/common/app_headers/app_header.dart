@@ -7,9 +7,11 @@ class AppHeader extends StatelessWidget {
   const AppHeader({
     super.key,
     required this.header,
+    this.actionOnPressed,
     this.haveAction = false,
   });
   final Widget header;
+  final VoidCallback? actionOnPressed;
   final bool haveAction;
 
   @override
@@ -30,7 +32,7 @@ class AppHeader extends StatelessWidget {
                           color: Colors.white,
                         )),
                     IconButton(
-                        onPressed: () => Get.back(),
+                        onPressed: actionOnPressed,
                         icon: const Icon(
                           Icons.settings_outlined,
                           size: 28,
