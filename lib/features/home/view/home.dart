@@ -17,6 +17,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /// -- Linear Gradient Background
       body: AppBackground(
         colors: const [
           Color.fromRGBO(75, 61, 133, 1),
@@ -26,6 +27,7 @@ class Home extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: AppSizes.defaultSpace),
           child: Column(
             children: [
+              /// Header
               AppHeader(
                 haveAction: true,
                 actionOnPressed: () =>
@@ -35,26 +37,39 @@ class Home extends StatelessWidget {
                     style: AppStyles.headlineMedium),
               ),
               const SizedBox(height: AppSizes.spaceBtwItems),
+
+              /// Device Current Reading
               Text('600ppm',
                   textAlign: TextAlign.center,
                   style: AppStyles.ubuntuHeadlineSmall),
               const SizedBox(height: AppSizes.spaceBtwItems),
-              SizedBox(
-                width: 225,
+
+              /// Returns Room CO2 Condition depends on Current Reading
+              Container(
+                width: MediaQuery.sizeOf(context).width * 0.6,
                 height: 61,
-                child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromRGBO(56, 160, 67, 1)),
-                    onPressed: () {},
-                    child: Text('Good', style: AppStyles.ubuntuHeadlineMedium)),
+                decoration: BoxDecoration(
+                  color: const Color.fromRGBO(56, 160, 67, 1),
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  'Good',
+                  style: AppStyles.ubuntuHeadlineMedium,
+                ),
               ),
+
               const SizedBox(height: AppSizes.spaceBtwSections),
+
+              /// 24 Hours Readings Chart
               SizedBox(
                 height: 200,
                 width: MediaQuery.sizeOf(context).width * 0.8,
                 child: const Chart24Hours(),
               ),
               const SizedBox(height: AppSizes.spaceBtwSections),
+
+              /// Weekly Readings Chart
               SizedBox(
                 height: 200,
                 width: MediaQuery.sizeOf(context).width * 0.8,

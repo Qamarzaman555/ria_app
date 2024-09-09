@@ -15,9 +15,9 @@ class Setting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Instantiate the controller
     final SettingController sliderController = Get.find();
     return Scaffold(
+      /// -- Linear Gradient Background
       body: AppBackground(
         colors: const [
           Color.fromRGBO(75, 61, 133, 1),
@@ -28,13 +28,18 @@ class Setting extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                /// Header
                 AppHeader(
                   header: Text('Settings',
                       textAlign: TextAlign.center,
                       style: AppStyles.headlineMedium),
                 ),
                 const SizedBox(height: AppSizes.spaceBtwItems),
+
+                /// Device Info
                 Text("Set Device Name", style: AppStyles.ubuntuHeadlineSmall),
+
+                /// Update Device Info Field
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.7,
                   child: TextFormField(
@@ -55,6 +60,8 @@ class Setting extends StatelessWidget {
                     ),
                   ),
                 ),
+
+                /// Update Threshold Slider
                 const SizedBox(height: AppSizes.spaceBtwSections * 2),
                 Text('Set Alert Threshold',
                     style: AppStyles.ubuntuHeadlineSmall),
@@ -78,6 +85,8 @@ class Setting extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSizes.spaceBtwSections * 2),
+
+                /// Confirm Update Button
                 SizedBox(
                   height: 60,
                   width: MediaQuery.sizeOf(context).width * 0.5,
@@ -88,6 +97,8 @@ class Setting extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: AppSizes.spaceBtwItems),
+
+                /// Disconnect Device Button
                 SizedBox(
                   height: 60,
                   width: MediaQuery.sizeOf(context).width * 0.5,

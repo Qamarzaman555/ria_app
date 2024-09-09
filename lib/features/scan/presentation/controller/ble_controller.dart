@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../../core/bluetooth/bluetooth.dart';
 import '../../../../core/permissions/permissoins.dart';
 import '../../../../utils/popups/app_full_screen_loader.dart';
+import '../../../ble_device_list/view/device_list.dart';
 import '../../../connecting/view/connecting.dart';
 import '../../../home/view/home.dart';
 import '../../../scanning/view/scanning.dart';
@@ -66,6 +67,9 @@ class BluetoothController extends GetxController {
 
       // Stop the loading dialog
       AppFullScreenLoader.stopLoading();
+
+      /// Navigates to device List screen
+      Get.to(const DeviceListScreen());
     } else {
       // If location permission is not granted, show a snackbar and stop the loader
       Get.snackbar(

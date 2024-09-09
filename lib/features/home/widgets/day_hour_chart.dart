@@ -8,10 +8,13 @@ class Chart24Hours extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Dummy Data Populated in Chart
     final List<ChartData> chartData =
         List.generate(24, (data) => ChartData(data, Random().nextDouble()));
     return Scaffold(
         body: Center(
+
+            /// Syncfusion Chart
             child: SfCartesianChart(
                 title: const ChartTitle(
                   text: '24h Chart',

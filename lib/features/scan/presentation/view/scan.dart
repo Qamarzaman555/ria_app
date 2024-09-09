@@ -12,13 +12,19 @@ class Scan extends StatelessWidget {
   Widget build(BuildContext context) {
     final BluetoothController controller = Get.find();
     return Scaffold(
+      /// -- Linear Gradient Background
       body: AppBackground(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
+            /// App Header
             const HeaderWidget(),
+
+            /// Center BluetoothIcon
             const Icon(Icons.bluetooth, size: 100, color: Colors.white),
+
+            /// Footer (Text & Scan Button)
             FooterButtunWidget(controller: controller),
           ],
         ),

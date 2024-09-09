@@ -12,21 +12,27 @@ class Scanning extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /// -- Linear Gradient Background
       body: AppBackground(
         child: Padding(
           padding: const EdgeInsets.only(top: 40, bottom: 60),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              /// Header
               const Flexible(
                 child: AppHeader(
                   header: HeaderWidget(),
                 ),
               ),
+
+              /// Animated Bluetooth Icon
               const Expanded(
                 flex: 4,
                 child: BluetoothScanningIcon(),
               ),
+
+              /// Footer
               Text("Scanning...", style: AppStyles.bodyMedium),
             ],
           ),

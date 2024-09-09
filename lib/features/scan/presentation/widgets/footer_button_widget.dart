@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 import '../../../../utils/app_styles.dart';
 import '../controller/ble_controller.dart';
-import '../../../ble_device_list/view/device_list.dart';
 
 class FooterButtunWidget extends StatelessWidget {
   const FooterButtunWidget({
@@ -24,8 +22,8 @@ class FooterButtunWidget extends StatelessWidget {
           height: 50,
           child: ElevatedButton(
             onPressed: () {
+              /// Scans for devices
               controller.scanForDevices();
-              Get.to(const DeviceListScreen());
             },
             child: Text("Scan", style: AppStyles.buttonText),
           ),

@@ -9,10 +9,14 @@ class Connecting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      /// -- Linear Gradient Background
       body: AppBackground(
         child: Padding(
           padding: const EdgeInsets.only(top: 40, bottom: 60),
-          child: Center(
+          child:
+
+              ///  Center Text
+              Center(
             child: Text("Connecting...",
                 style:
                     AppStyles.bodyMedium.copyWith(fontWeight: FontWeight.bold)),
