@@ -36,7 +36,7 @@ class DeviceListScreen extends StatelessWidget {
                     BluetoothAdapterState.turningOn) {
                   return const BluetoothOffScreen(
                       status: 'Bluetooth is Turning On!');
-                } else if (controller.scanResults.isEmpty) {
+                } else if (controller.filteredResults.isEmpty) {
                   return Center(
                       child: Text('No devices found',
                           style: AppStyles.headlineMedium));

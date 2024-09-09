@@ -22,6 +22,7 @@ dependencies:
   flutter_blue_plus: ^1.32.12
   google_fonts: ^6.2.1
   syncfusion_flutter_charts: ^26.2.14
+  fl_chart: ^0.69.0
 
   # ------------- Packages End ------------ #
 

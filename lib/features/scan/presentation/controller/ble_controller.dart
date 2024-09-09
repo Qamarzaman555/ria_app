@@ -9,7 +9,7 @@ import '../../../../utils/popups/app_full_screen_loader.dart';
 import '../../../connecting/view/connecting.dart';
 import '../../../home/view/home.dart';
 import '../../../scanning/view/scanning.dart';
-import '../../../connected_device/view/connected_device.dart';
+import '../view/scan.dart';
 
 class BluetoothController extends GetxController {
   var bluetoothState = BluetoothAdapterState.unknown.obs;
@@ -55,9 +55,9 @@ class BluetoothController extends GetxController {
       // Listen to scan results
       FlutterBluePlus.scanResults.listen((results) {
         scanResults.value = results;
+        filteredResults.assignAll(
+            scanResults.where((check) => check.device.platformName.isNotEmpty));
       });
-      filteredResults.assignAll(
-          scanResults.where((check) => check.device.platformName.isNotEmpty));
 
       log(filteredResults.length.toString());
 
@@ -89,7 +89,7 @@ class BluetoothController extends GetxController {
       stopScan();
 
       AppFullScreenLoader.stopLoading();
-      Get.to(const ConnectedDeviceScreen());
+      // Get.to(const ConnectedDeviceScreen());
       Get.to(Home(connectedDevice: connectedDevice!));
     } catch (e) {
       Get.snackbar('Connection Error', 'Failed to connect to device');
@@ -106,6 +106,7 @@ class BluetoothController extends GetxController {
       await connectedDevice!.disconnect();
       isConnected.value = false;
       connectedDevice = null;
+      Get.to(const Scan());
     }
   }
 }
