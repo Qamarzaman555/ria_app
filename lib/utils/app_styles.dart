@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppStyles {
+  AppStyles._internal();
   static TextStyle headlineStyle = Theme.of(Get.context!)
       .textTheme
       .headlineMedium!
@@ -32,4 +33,7 @@ class AppStyles {
 
   static TextStyle ubuntuHeadlineSmall = GoogleFonts.ubuntu(
       fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white);
+
+  static TextStyle ubuntuHeadlineLarge = GoogleFonts.ubuntu(
+      fontSize: 36, fontWeight: FontWeight.w700, color: Colors.white);
 }

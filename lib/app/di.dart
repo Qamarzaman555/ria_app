@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../features/scan/presentation/controller/ble_controller.dart';
+import '../features/settings/controller/setting_controller.dart';
 
 /// -- Dependancy Injection
 
@@ -13,4 +14,5 @@ import '../features/scan/presentation/controller/ble_controller.dart';
 
 di() {
   Get.put(BluetoothController());
+  Get.put(SettingController());
 }

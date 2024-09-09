@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
+import 'package:get/get.dart';
 import 'package:ria_app/common/app_background/app_background.dart';
 import 'package:ria_app/common/app_headers/app_header.dart';
 import 'package:ria_app/features/home/widgets/day_hour_chart.dart';
@@ -7,6 +8,7 @@ import 'package:ria_app/features/home/widgets/weekly_chart.dart';
 
 import '../../../utils/app_sizes.dart';
 import '../../../utils/app_styles.dart';
+import '../../settings/view/setting.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key, required this.connectedDevice});
@@ -26,7 +28,8 @@ class Home extends StatelessWidget {
             children: [
               AppHeader(
                 haveAction: true,
-                actionOnPressed: () {},
+                actionOnPressed: () =>
+                    Get.to(Setting(connectedDevice: connectedDevice)),
                 header: Text(connectedDevice.platformName,
                     textAlign: TextAlign.center,
                     style: AppStyles.headlineMedium),
