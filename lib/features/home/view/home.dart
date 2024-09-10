@@ -68,18 +68,30 @@ class Home extends StatelessWidget {
 
                 /// 24 Hours Readings Chart
                 SizedBox(
-                  height: 200,
-                  width: MediaQuery.sizeOf(context).width * 0.8,
+                  height: 225,
+                  width: MediaQuery.sizeOf(context).width * 0.9,
                   child: const Chart24Hours(),
                 ),
-                const SizedBox(height: AppSizes.spaceBtwSections),
+                const SizedBox(height: AppSizes.spaceBtwItems),
 
                 /// Weekly Readings Chart
                 SizedBox(
-                  height: 200,
-                  width: MediaQuery.sizeOf(context).width * 0.8,
+                  height: 225,
+                  width: MediaQuery.sizeOf(context).width * 0.9,
                   child: const WeeklyChart(),
                 ),
+
+                const SizedBox(height: AppSizes.spaceBtwSections),
+
+                // /// Weekly Readings Chart
+                // SizedBox(
+                //   height: 40,
+                //   width: MediaQuery.sizeOf(context).width * 0.8,
+                //   child: ElevatedButton(
+                //       onPressed: () => Get.find<BluetoothController>()
+                //           .readDataFromBLE(connectedDevice),
+                //       child: const Text('Read')),
+                // ),
               ],
             ),
           ),

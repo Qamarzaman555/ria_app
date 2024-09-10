@@ -20,7 +20,7 @@ class Chart24Hours extends StatelessWidget {
       ),
       primaryXAxis: const NumericAxis(
         majorGridLines: MajorGridLines(width: 0),
-        interval: 4, // Interval for every 4 hours
+        interval: 2, // Interval for every 4 hours
         maximum: 24, // 24 hours
         labelFormat: '', // Hide the numeric values
         title: AxisTitle(

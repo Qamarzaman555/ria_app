@@ -32,7 +32,7 @@ class WeeklyChart extends StatelessWidget {
         ),
         primaryYAxis: const NumericAxis(
           minimum: 0,
-          maximum: 2500, // Set maximum to 3000
+          maximum: 3000, // Set maximum to 3000
           interval: 500,
           labelFormat: '',
           title: AxisTitle(

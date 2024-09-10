@@ -124,7 +124,7 @@ class BluetoothController extends GetxController {
           }
         }
 
-        await subscribeToNotifications(device);
+        // await subscribeToNotifications(device);
       }
     } catch (e) {
       log("Something went wrong! $e");
