@@ -34,10 +34,12 @@ class BluetoothController extends GetxController {
     if (permissionsGranted && locationEnabled && bluetoothEnabled) {
       _checkBluetoothState();
     } else {
-      Get.snackbar(
-        'Initialization Error',
-        'Failed to initialize Bluetooth and Permissions',
-      );
+      _initializeBluetooth();
+
+      // Get.snackbar(
+      //   'Initialization Error',
+      //   'Failed to initialize Bluetooth and Permissions',
+      // );
     }
   }
 
