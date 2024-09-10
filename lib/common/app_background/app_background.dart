@@ -12,6 +12,7 @@ class AppBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: MediaQuery.sizeOf(context).height,
       width: double.infinity,
       decoration: BoxDecoration(
           gradient: LinearGradient(

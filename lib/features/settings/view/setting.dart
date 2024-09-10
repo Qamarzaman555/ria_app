@@ -88,7 +88,7 @@ class Setting extends StatelessWidget {
 
                 /// Confirm Update Button
                 SizedBox(
-                  height: 60,
+                  height: 50,
                   width: MediaQuery.sizeOf(context).width * 0.5,
                   child: ElevatedButton(
                     onPressed: () {},
@@ -100,7 +100,7 @@ class Setting extends StatelessWidget {
 
                 /// Disconnect Device Button
                 SizedBox(
-                  height: 60,
+                  height: 50,
                   width: MediaQuery.sizeOf(context).width * 0.5,
                   child: ElevatedButton(
                     onPressed: () =>
