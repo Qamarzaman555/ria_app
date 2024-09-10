@@ -35,11 +35,6 @@ class BluetoothController extends GetxController {
       _checkBluetoothState();
     } else {
       _initializeBluetooth();
-
-      // Get.snackbar(
-      //   'Initialization Error',
-      //   'Failed to initialize Bluetooth and Permissions',
-      // );
     }
   }
 
