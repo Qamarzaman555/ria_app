@@ -1,8 +1,6 @@
 import 'dart:developer';
-
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
-
 import '../../../../core/bluetooth/bluetooth.dart';
 import '../../../../core/permissions/permissoins.dart';
 import '../../../../utils/popups/app_full_screen_loader.dart';
@@ -18,6 +16,8 @@ class BluetoothController extends GetxController {
   var filteredResults = <ScanResult>[].obs;
   RxBool isConnected = false.obs;
   BluetoothDevice? connectedDevice;
+  String kServiceUUID = "0000ff10-0000-1000-8000-00805f9b34fb";
+  String kCharUUID = "0000ff11-0000-1000-8000-00805f9b34fb";
 
   @override
   void onInit() {
@@ -34,8 +34,10 @@ class BluetoothController extends GetxController {
     if (permissionsGranted && locationEnabled && bluetoothEnabled) {
       _checkBluetoothState();
     } else {
-      Get.snackbar('Initialization Error',
-          'Failed to initialize Bluetooth and Permissions');
+      Get.snackbar(
+        'Initialization Error',
+        'Failed to initialize Bluetooth and Permissions',
+      );
     }
   }
 
@@ -47,31 +49,23 @@ class BluetoothController extends GetxController {
 
   Future<void> scanForDevices() async {
     if (await Permissions.enableLocationService()) {
-      // Open the loading dialog
       AppFullScreenLoader.openLoadingDialog(screen: const Scanning());
 
-      // Start scanning for devices
       FlutterBluePlus.startScan(timeout: const Duration(seconds: 4));
 
-      // Listen to scan results
       FlutterBluePlus.scanResults.listen((results) {
         scanResults.value = results;
         filteredResults.assignAll(
-            scanResults.where((check) => check.device.platformName.isNotEmpty));
+          scanResults.where((check) => check.device.platformName.isNotEmpty),
+        );
       });
 
       log(filteredResults.length.toString());
 
-      // Wait for 4 to 5 seconds to ensure the loader is visible
       await Future.delayed(const Duration(seconds: 4));
-
-      // Stop the loading dialog
       AppFullScreenLoader.stopLoading();
-
-      /// Navigates to device List screen
       Get.to(const DeviceListScreen());
     } else {
-      // If location permission is not granted, show a snackbar and stop the loader
       Get.snackbar(
         'Permission Denied',
         'Location permission is required to scan for devices',
@@ -82,10 +76,12 @@ class BluetoothController extends GetxController {
 
   Future<void> connectToDevice(BluetoothDevice device) async {
     AppFullScreenLoader.openLoadingDialog(screen: const Connecting());
+
     try {
       if (isConnected.value) {
         await disconnectDevice();
       }
+
       await device.connect();
       connectedDevice = device;
       isConnected.value = true;
@@ -93,16 +89,11 @@ class BluetoothController extends GetxController {
       stopScan();
 
       AppFullScreenLoader.stopLoading();
-      // Get.to(const ConnectedDeviceScreen());
       Get.to(Home(connectedDevice: connectedDevice!));
     } catch (e) {
       Get.snackbar('Connection Error', 'Failed to connect to device');
       AppFullScreenLoader.stopLoading();
     }
-  }
-
-  void stopScan() {
-    FlutterBluePlus.stopScan();
   }
 
   Future<void> disconnectDevice() async {
@@ -111,6 +102,69 @@ class BluetoothController extends GetxController {
       isConnected.value = false;
       connectedDevice = null;
       Get.to(const Scan());
+    }
+  }
+
+  void stopScan() {
+    FlutterBluePlus.stopScan();
+  }
+
+  Future<void> readDataFromBLE(BluetoothDevice device) async {
+    try {
+      if (device.isConnected) {
+        List<BluetoothService> services = await device.discoverServices();
+        log(services.length.toString());
+
+        for (BluetoothService service in services) {
+          List<BluetoothCharacteristic> characteristics =
+              service.characteristics;
+          for (BluetoothCharacteristic characteristic in characteristics) {
+            List<int> value = await characteristic.read();
+            log('Characteristic value: $value');
+          }
+        }
+      }
+    } catch (e) {
+      log("Something went wrong! $e");
+    }
+  }
+
+  Future<void> writeDataToBLE(BluetoothDevice device) async {
+    try {
+      if (device.isConnected) {
+        List<BluetoothService> services = await device.discoverServices();
+        for (var service in services) {
+          List<BluetoothCharacteristic> characteristics =
+              service.characteristics;
+          for (var characteristic in characteristics) {
+            if (characteristic.properties.write) {
+              await characteristic.write([0x12, 0x34]);
+            }
+          }
+        }
+      }
+    } catch (e) {
+      log("Something went wrong! $e");
+    }
+  }
+
+  Future<void> subscribeToNotifications(BluetoothDevice device) async {
+    try {
+      if (device.isConnected) {
+        List<BluetoothService> services = await device.discoverServices();
+        for (var service in services) {
+          for (var characteristic in service.characteristics) {
+            if (characteristic.properties.notify) {
+              await characteristic.setNotifyValue(true);
+              characteristic.value.listen((value) {
+                log('Received notification value: $value');
+              });
+            }
+          }
+        }
+      }
+    } catch (e) {
+      log("Failed to subscribe to notifications: $e");
     }
   }
 }

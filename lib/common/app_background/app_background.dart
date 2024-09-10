@@ -19,8 +19,10 @@ class AppBackground extends StatelessWidget {
         end: Alignment.bottomCenter,
         colors: colors ??
             const [
-              Color.fromRGBO(130, 197, 245, 1),
-              Color.fromRGBO(21, 69, 239, 0.7),
+              // Color.fromRGBO(130, 197, 245, 1),
+              // Color.fromRGBO(21, 69, 239, 0.7),
+              Color.fromARGB(255, 75, 201, 240),
+              Color.fromARGB(255, 11, 144, 161),
             ],
       )),
       child: child,
