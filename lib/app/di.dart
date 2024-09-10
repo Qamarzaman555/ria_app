@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 
+import '../features/home/controller/home_controller.dart';
 import '../features/scan/presentation/controller/ble_controller.dart';
 import '../features/settings/controller/setting_controller.dart';
 
@@ -15,4 +16,5 @@ import '../features/settings/controller/setting_controller.dart';
 di() {
   Get.put(BluetoothController());
   Get.put(SettingController());
+  Get.put(HomeController());
 }

@@ -5,11 +5,10 @@ import 'package:ria_app/common/app_background/app_background.dart';
 import 'package:ria_app/common/app_headers/app_header.dart';
 import 'package:ria_app/features/home/widgets/day_hour_chart.dart';
 import 'package:ria_app/features/home/widgets/weekly_chart.dart';
-
 import '../../../utils/app_sizes.dart';
 import '../../../utils/app_styles.dart';
-import '../../scan/presentation/controller/ble_controller.dart';
 import '../../settings/view/setting.dart';
+import '../controller/home_controller.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key, required this.connectedDevice});
@@ -17,6 +16,8 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.find<HomeController>();
+
     return Scaffold(
       /// -- Linear Gradient Background
       body: AppBackground(
@@ -40,26 +41,28 @@ class Home extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSizes.spaceBtwItems),
 
-                /// Device Current Reading
-                Text('600ppm',
-                    textAlign: TextAlign.center,
-                    style: AppStyles.ubuntuHeadlineSmall),
+                /// Device Current Reading (Reactive to the controller values)
+                Obx(() => Text(
+                      '${controller.currentReading.value}ppm',
+                      textAlign: TextAlign.center,
+                      style: AppStyles.ubuntuHeadlineSmall,
+                    )),
                 const SizedBox(height: AppSizes.spaceBtwItems),
 
                 /// Returns Room CO2 Condition depends on Current Reading
-                Container(
-                  width: MediaQuery.sizeOf(context).width * 0.6,
-                  height: 61,
-                  decoration: BoxDecoration(
-                    color: const Color.fromRGBO(56, 160, 67, 1),
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'Good',
-                    style: AppStyles.ubuntuHeadlineMedium,
-                  ),
-                ),
+                Obx(() => Container(
+                      width: MediaQuery.sizeOf(context).width * 0.6,
+                      height: 61,
+                      decoration: BoxDecoration(
+                        color: controller.airQualityColor.value,
+                        borderRadius: BorderRadius.circular(25),
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        controller.airQualityLabel.value,
+                        style: AppStyles.ubuntuHeadlineMedium,
+                      ),
+                    )),
 
                 const SizedBox(height: AppSizes.spaceBtwSections),
 
@@ -84,8 +87,9 @@ class Home extends StatelessWidget {
                   height: 50,
                   width: MediaQuery.sizeOf(context).width * 0.7,
                   child: ElevatedButton(
-                      onPressed: () => Get.find<BluetoothController>()
-                          .readDataFromBLE(connectedDevice),
+                      onPressed: () {
+                        controller.updateCurrentReading();
+                      },
                       child: const Text('Read Data')),
                 ),
               ],
