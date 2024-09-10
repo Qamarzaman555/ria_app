@@ -9,39 +9,40 @@ class WeeklyChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /// Dummy Data Populated in Chart
-    final List<ChartData> chartData =
-        List.generate(7, (data) => ChartData(++data, Random().nextDouble()));
-    return Scaffold(
-        body: Center(
+    final List<ChartData> chartData = List.generate(
+        7,
+        (data) =>
+            ChartData(++data, 400 + Random().nextDouble() * (2000 - 400)));
+    return SfCartesianChart(
+        title: const ChartTitle(
+          text: 'Weekly Chart',
+          textStyle: TextStyle(color: Colors.white, fontSize: 12),
+        ),
+        primaryXAxis: const NumericAxis(
+          majorGridLines: MajorGridLines(width: 0),
 
-            /// Syncfusion Chart
-            child: SfCartesianChart(
-                title: const ChartTitle(
-                  text: 'Weekly Chart',
-                  textStyle: TextStyle(color: Colors.white, fontSize: 12),
-                ),
-                primaryXAxis: const NumericAxis(
-                  majorGridLines: MajorGridLines(width: 0),
-
-                  interval: 1,
-                  maximum: 8,
-                  title: AxisTitle(
-                    text: 'week',
-                    textStyle: TextStyle(color: Colors.white, fontSize: 8),
-                  ),
-                  // axisLine: AxisLine(color: Colors.white),
-                  labelStyle: TextStyle(color: Colors.white, fontSize: 8),
-                ),
-                primaryYAxis: const NumericAxis(
-                  title: AxisTitle(
-                    text: 'ppm',
-                    textStyle: TextStyle(color: Colors.white, fontSize: 8),
-                  ),
-                  // axisLine: AxisLine(color: Colors.white),
-                  labelStyle: TextStyle(color: Colors.white, fontSize: 8),
-                ),
-                backgroundColor: const Color.fromRGBO(75, 61, 133, 1),
-                series: <CartesianSeries>[
+          interval: 1,
+          maximum: 7,
+          title: AxisTitle(
+            text: 'week',
+            textStyle: TextStyle(color: Colors.white, fontSize: 8),
+          ),
+          // axisLine: AxisLine(color: Colors.white),
+          labelStyle: TextStyle(color: Colors.white, fontSize: 8),
+        ),
+        primaryYAxis: const NumericAxis(
+          minimum: 0,
+          maximum: 2500, // Set maximum to 3000
+          interval: 500,
+          labelFormat: '',
+          title: AxisTitle(
+            text: 'PPM', // Keep label for y-axis
+            textStyle: TextStyle(color: Colors.white, fontSize: 8),
+          ),
+          labelStyle: TextStyle(
+              color: Colors.white, fontSize: 8), // Show axis line and label
+        ),
+        series: <CartesianSeries>[
           // Renders spline chart
           SplineSeries<ChartData, int>(
             color: Colors.pink,
@@ -55,7 +56,7 @@ class WeeklyChart extends StatelessWidget {
 
             name: '24h Chart',
           )
-        ])));
+        ]);
   }
 }
 

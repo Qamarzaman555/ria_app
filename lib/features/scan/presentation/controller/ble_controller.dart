@@ -123,6 +123,8 @@ class BluetoothController extends GetxController {
             log('Characteristic value: $value');
           }
         }
+
+        await subscribeToNotifications(device);
       }
     } catch (e) {
       log("Something went wrong! $e");
