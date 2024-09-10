@@ -80,18 +80,6 @@ class Home extends StatelessWidget {
                   width: MediaQuery.sizeOf(context).width * 0.8,
                   child: const WeeklyChart(),
                 ),
-
-                const SizedBox(height: AppSizes.spaceBtwSections),
-
-                SizedBox(
-                  height: 50,
-                  width: MediaQuery.sizeOf(context).width * 0.7,
-                  child: ElevatedButton(
-                      onPressed: () {
-                        controller.updateCurrentReading();
-                      },
-                      child: const Text('Read Data')),
-                ),
               ],
             ),
           ),
