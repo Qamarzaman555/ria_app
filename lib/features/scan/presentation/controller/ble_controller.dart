@@ -5,19 +5,12 @@ import '../../../../core/bluetooth/bluetooth.dart';
 import '../../../../core/permissions/permissoins.dart';
 import '../../../../utils/popups/app_full_screen_loader.dart';
 import '../../../ble_device_list/view/device_list.dart';
-import '../../../connecting/view/connecting.dart';
-import '../../../home/controller/home_controller.dart';
-import '../../../home/view/home.dart';
 import '../../../scanning/view/scanning.dart';
-import '../../../settings/controller/setting_controller.dart';
-import '../view/scan.dart';
 
-class BluetoothController extends GetxController {
+class ScanAndPersmissionController extends GetxController {
   var bluetoothState = BluetoothAdapterState.unknown.obs;
   var scanResults = <ScanResult>[].obs;
   var filteredResults = <ScanResult>[].obs;
-  RxBool isConnected = false.obs;
-  BluetoothDevice? connectedDevice;
 
   RxString co2Level = ''.obs;
 
@@ -73,63 +66,7 @@ class BluetoothController extends GetxController {
     }
   }
 
-  Future<void> connectToDevice(BluetoothDevice device) async {
-    AppFullScreenLoader.openLoadingDialog(screen: const Connecting());
-
-    try {
-      if (isConnected.value) {
-        await disconnectDevice();
-      }
-
-      await device.connect();
-      connectedDevice = device;
-      isConnected.value = true;
-
-      stopScan();
-
-      AppFullScreenLoader.stopLoading();
-      Get.to(Home(connectedDevice: connectedDevice!));
-
-      Get.find<HomeController>()
-          .readAndSubscribeToNotifications(connectedDevice!);
-      Get.find<HomeController>().readChartDataFromBLE(connectedDevice!);
-      Get.find<HomeController>().readWeeklyChartDataFromBLE(connectedDevice!);
-      Get.find<SettingController>().readTreshholdDataFromBLE(connectedDevice!);
-    } catch (e) {
-      Get.snackbar('Connection Error', 'Failed to connect to device');
-      AppFullScreenLoader.stopLoading();
-    }
-  }
-
-  Future<void> disconnectDevice() async {
-    if (connectedDevice != null) {
-      await connectedDevice!.disconnect();
-      isConnected.value = false;
-      connectedDevice = null;
-      Get.to(const Scan());
-    }
-  }
-
   void stopScan() {
     FlutterBluePlus.stopScan();
-  }
-
-  Future<void> writeDataToBLE(BluetoothDevice device) async {
-    try {
-      if (device.isConnected) {
-        List<BluetoothService> services = await device.discoverServices();
-        for (var service in services) {
-          List<BluetoothCharacteristic> characteristics =
-              service.characteristics;
-          for (var characteristic in characteristics) {
-            if (characteristic.properties.write) {
-              await characteristic.write([0x12, 0x34]);
-            }
-          }
-        }
-      }
-    } catch (e) {
-      log("Something went wrong! $e");
-    }
   }
 }

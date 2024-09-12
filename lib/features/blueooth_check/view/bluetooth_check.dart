@@ -11,7 +11,7 @@ class BluetoothCheckScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BluetoothController controller = Get.find();
+    final ScanAndPersmissionController controller = Get.find();
     return Obx(() {
       if (controller.bluetoothState.value == BluetoothAdapterState.unknown) {
         return const Scaffold(

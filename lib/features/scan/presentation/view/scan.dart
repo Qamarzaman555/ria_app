@@ -10,7 +10,7 @@ class Scan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BluetoothController controller = Get.find();
+    final ScanAndPersmissionController controller = Get.find();
     return Scaffold(
       /// -- Linear Gradient Background
       body: AppBackground(

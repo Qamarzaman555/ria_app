@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
+import 'package:ria_app/features/connected_device/controller/connection_controller.dart';
 
 import '../../../common/bluetooth_diabled/bluetooth_offscreen.dart';
 import '../../../utils/app_sizes.dart';
@@ -11,20 +12,21 @@ import 'device_list_tile.dart';
 class DevicesList extends StatelessWidget {
   const DevicesList({
     super.key,
-    required this.controller,
   });
-
-  final BluetoothController controller;
 
   @override
   Widget build(BuildContext context) {
+    final ScanAndPersmissionController bleController =
+        Get.find<ScanAndPersmissionController>();
+    final ConnectionController connectionController =
+        Get.find<ConnectionController>();
     return Obx(() {
-      if (controller.bluetoothState.value != BluetoothAdapterState.on) {
+      if (bleController.bluetoothState.value != BluetoothAdapterState.on) {
         return const BluetoothOffScreen(status: 'Bluetooth is Turned Off');
-      } else if (controller.bluetoothState.value ==
+      } else if (bleController.bluetoothState.value ==
           BluetoothAdapterState.turningOn) {
         return const BluetoothOffScreen(status: 'Bluetooth is Turning On!');
-      } else if (controller.filteredResults.isEmpty) {
+      } else if (bleController.filteredResults.isEmpty) {
         return Center(
             child: Text('No devices found', style: AppStyles.headlineMedium));
       } else {
@@ -32,14 +34,14 @@ class DevicesList extends StatelessWidget {
         return Flexible(
           child: ListView.separated(
             padding: const EdgeInsets.all(AppSizes.defaultSpace),
-            itemCount: controller.filteredResults.length,
+            itemCount: bleController.filteredResults.length,
             itemBuilder: (context, index) {
-              final device = controller.filteredResults[index].device;
+              final device = bleController.filteredResults[index].device;
 
               /// Device
               return GestureDetector(
                 onTap: () {
-                  controller.connectToDevice(device);
+                  connectionController.connectToDevice(device);
                 },
                 child: DeviceListTile(device: device),
               );

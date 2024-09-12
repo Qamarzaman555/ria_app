@@ -9,7 +9,7 @@ class FooterButtunWidget extends StatelessWidget {
     required this.controller,
   });
 
-  final BluetoothController controller;
+  final ScanAndPersmissionController controller;
 
   @override
   Widget build(BuildContext context) {

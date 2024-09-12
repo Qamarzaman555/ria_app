@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:ria_app/common/app_headers/app_header.dart';
-import 'package:ria_app/features/scan/presentation/controller/ble_controller.dart';
 
 import '../../../common/app_background/app_background.dart';
 import '../../../utils/app_sizes.dart';
@@ -98,16 +97,16 @@ class Setting extends StatelessWidget {
                 ),
                 const SizedBox(height: AppSizes.spaceBtwItems),
 
-                /// Disconnect Device Button
-                SizedBox(
-                  height: 50,
-                  width: MediaQuery.sizeOf(context).width * 0.5,
-                  child: ElevatedButton(
-                    onPressed: () =>
-                        Get.find<BluetoothController>().disconnectDevice(),
-                    child: Text('Disconnect', style: AppStyles.buttonText),
-                  ),
-                )
+                // /// Disconnect Device Button
+                // SizedBox(
+                //   height: 50,
+                //   width: MediaQuery.sizeOf(context).width * 0.5,
+                //   child: ElevatedButton(
+                //     onPressed: () =>
+                //         Get.find<BluetoothController>().disconnectDevice(),
+                //     child: Text('Disconnect', style: AppStyles.buttonText),
+                //   ),
+                // )
               ],
             ),
           ),

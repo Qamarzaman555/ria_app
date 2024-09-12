@@ -4,14 +4,14 @@ import 'package:get/get.dart';
 import '../../../common/app_background/app_background.dart';
 import '../../../common/app_headers/app_header.dart';
 import '../../../utils/app_styles.dart';
-import '../../scan/presentation/controller/ble_controller.dart';
+import '../controller/connection_controller.dart';
 
 class ConnectedDeviceScreen extends StatelessWidget {
   const ConnectedDeviceScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final BluetoothController controller = Get.find();
+    final ConnectionController controller = Get.find();
     return Scaffold(
       body: Center(
         child: AppBackground(

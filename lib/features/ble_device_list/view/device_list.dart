@@ -14,7 +14,7 @@ class DeviceListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final BluetoothController controller = Get.find();
+    final ScanAndPersmissionController controller = Get.find();
     return Scaffold(
 
         /// -- Linear Gradient Background
@@ -33,7 +33,7 @@ class DeviceListScreen extends StatelessWidget {
               ),
 
               /// Device List View
-              DevicesList(controller: controller),
+              const DevicesList(),
             ],
           ),
         ),
