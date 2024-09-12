@@ -17,4 +17,5 @@ di() {
   Get.put(BluetoothController());
   Get.put(SettingController());
   Get.put(HomeController());
+  Get.put(SettingController());
 }

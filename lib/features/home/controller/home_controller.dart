@@ -21,19 +21,7 @@ class HomeController extends GetxController {
   final String charUUIDCO2_7d =
       "00002526-1212-efde-2523-785feabcd223"; // 7d CO2 levels
 
-  final DecodeRead _decoder = DecodeRead(); // Instantiate DecodeRead
-
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   updateAirQuality(currentReading.value);
-  // }
-
-  // // Function to generate random readings between 0 and 3000
-  // void updateCurrentReading() {
-  //   updateAirQuality(
-  //       currentReading.value); // Update the air quality based on reading
-  // }
+  final DecodeRead _decoder = DecodeRead();
 
   // Function to determine air quality and corresponding color
   void updateAirQuality(int reading) {
@@ -55,9 +43,10 @@ class HomeController extends GetxController {
     }
   }
 
-  Future<void> readDataFromBLE(BluetoothDevice device) async {
+  Future<void> readAndSubscribeToNotifications(BluetoothDevice device) async {
     try {
       if (device.isConnected) {
+        // Discover services
         List<BluetoothService> services = await device.discoverServices();
         debugPrint("Total Services: ${services.length}");
 
@@ -65,7 +54,6 @@ class HomeController extends GetxController {
         BluetoothService? targetService = services.firstWhere(
           (service) => service.uuid.toString() == serviceUUID,
         );
-
         debugPrint("Found target service with UUID: $serviceUUID");
 
         // Filter for the characteristic with the matching UUID
@@ -73,7 +61,6 @@ class HomeController extends GetxController {
             targetService.characteristics.firstWhere(
           (characteristic) => characteristic.uuid.toString() == charUUIDCO2,
         );
-
         debugPrint("Found target characteristic with UUID: $charUUIDCO2");
 
         // Read the value from the characteristic
@@ -85,9 +72,30 @@ class HomeController extends GetxController {
         if (decodedValue.isNotEmpty) {
           currentReading.value = decodedValue.first;
         }
-      }
 
-      updateAirQuality(currentReading.value);
+        // Update air quality based on the reading
+        updateAirQuality(currentReading.value);
+
+        // Subscribe to notifications if the characteristic supports it
+        if (targetCharacteristic.properties.notify) {
+          await targetCharacteristic.setNotifyValue(true);
+          targetCharacteristic.lastValueStream.listen((value) {
+            log('Received notification value: $value');
+
+            // Optionally decode the notification value if needed
+            List<int> decodedNotification = _decoder.uInt16L(value);
+            if (decodedNotification.isNotEmpty) {
+              currentReading.value = decodedNotification.first;
+            }
+
+            // Update air quality based on the notification
+            updateAirQuality(currentReading.value);
+          });
+          log('Subscribed to notifications for characteristic: $charUUIDCO2');
+        } else {
+          log('Characteristic does not support notifications');
+        }
+      }
     } catch (e) {
       debugPrint("Something went wrong! $e");
     }

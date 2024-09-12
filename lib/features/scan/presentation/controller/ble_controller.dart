@@ -9,6 +9,7 @@ import '../../../connecting/view/connecting.dart';
 import '../../../home/controller/home_controller.dart';
 import '../../../home/view/home.dart';
 import '../../../scanning/view/scanning.dart';
+import '../../../settings/controller/setting_controller.dart';
 import '../view/scan.dart';
 
 class BluetoothController extends GetxController {
@@ -89,9 +90,11 @@ class BluetoothController extends GetxController {
       AppFullScreenLoader.stopLoading();
       Get.to(Home(connectedDevice: connectedDevice!));
 
-      Get.find<HomeController>().readDataFromBLE(connectedDevice!);
+      Get.find<HomeController>()
+          .readAndSubscribeToNotifications(connectedDevice!);
       Get.find<HomeController>().readChartDataFromBLE(connectedDevice!);
       Get.find<HomeController>().readWeeklyChartDataFromBLE(connectedDevice!);
+      Get.find<SettingController>().readTreshholdDataFromBLE(connectedDevice!);
     } catch (e) {
       Get.snackbar('Connection Error', 'Failed to connect to device');
       AppFullScreenLoader.stopLoading();
@@ -127,26 +130,6 @@ class BluetoothController extends GetxController {
       }
     } catch (e) {
       log("Something went wrong! $e");
-    }
-  }
-
-  Future<void> subscribeToNotifications(BluetoothDevice device) async {
-    try {
-      if (device.isConnected) {
-        List<BluetoothService> services = await device.discoverServices();
-        for (var service in services) {
-          for (var characteristic in service.characteristics) {
-            if (characteristic.properties.notify) {
-              await characteristic.setNotifyValue(true);
-              characteristic.lastValueStream.listen((value) {
-                log('Received notification value: $value');
-              });
-            }
-          }
-        }
-      }
-    } catch (e) {
-      log("Failed to subscribe to notifications: $e");
     }
   }
 }
