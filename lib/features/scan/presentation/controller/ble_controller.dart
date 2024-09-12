@@ -6,6 +6,7 @@ import '../../../../core/permissions/permissoins.dart';
 import '../../../../utils/popups/app_full_screen_loader.dart';
 import '../../../ble_device_list/view/device_list.dart';
 import '../../../connecting/view/connecting.dart';
+import '../../../home/controller/home_controller.dart';
 import '../../../home/view/home.dart';
 import '../../../scanning/view/scanning.dart';
 import '../view/scan.dart';
@@ -16,8 +17,8 @@ class BluetoothController extends GetxController {
   var filteredResults = <ScanResult>[].obs;
   RxBool isConnected = false.obs;
   BluetoothDevice? connectedDevice;
-  String kServiceUUID = "0000ff10-0000-1000-8000-00805f9b34fb";
-  String kCharUUID = "0000ff11-0000-1000-8000-00805f9b34fb";
+
+  RxString co2Level = ''.obs;
 
   @override
   void onInit() {
@@ -87,6 +88,8 @@ class BluetoothController extends GetxController {
 
       AppFullScreenLoader.stopLoading();
       Get.to(Home(connectedDevice: connectedDevice!));
+
+      Get.find<HomeController>().readDataFromBLE(connectedDevice!);
     } catch (e) {
       Get.snackbar('Connection Error', 'Failed to connect to device');
       AppFullScreenLoader.stopLoading();
@@ -104,28 +107,6 @@ class BluetoothController extends GetxController {
 
   void stopScan() {
     FlutterBluePlus.stopScan();
-  }
-
-  Future<void> readDataFromBLE(BluetoothDevice device) async {
-    try {
-      if (device.isConnected) {
-        List<BluetoothService> services = await device.discoverServices();
-        log(services.length.toString());
-
-        for (BluetoothService service in services) {
-          List<BluetoothCharacteristic> characteristics =
-              service.characteristics;
-          for (BluetoothCharacteristic characteristic in characteristics) {
-            List<int> value = await characteristic.read();
-            log('Characteristic value: $value');
-          }
-        }
-
-        // await subscribeToNotifications(device);
-      }
-    } catch (e) {
-      log("Something went wrong! $e");
-    }
   }
 
   Future<void> writeDataToBLE(BluetoothDevice device) async {
@@ -155,7 +136,7 @@ class BluetoothController extends GetxController {
           for (var characteristic in service.characteristics) {
             if (characteristic.properties.notify) {
               await characteristic.setNotifyValue(true);
-              characteristic.value.listen((value) {
+              characteristic.lastValueStream.listen((value) {
                 log('Received notification value: $value');
               });
             }

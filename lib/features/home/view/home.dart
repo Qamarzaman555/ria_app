@@ -84,14 +84,14 @@ class Home extends StatelessWidget {
                 const SizedBox(height: AppSizes.spaceBtwSections),
 
                 // /// Weekly Readings Chart
-                // SizedBox(
-                //   height: 40,
-                //   width: MediaQuery.sizeOf(context).width * 0.8,
-                //   child: ElevatedButton(
-                //       onPressed: () => Get.find<BluetoothController>()
-                //           .readDataFromBLE(connectedDevice),
-                //       child: const Text('Read')),
-                // ),
+                SizedBox(
+                  height: 40,
+                  width: MediaQuery.sizeOf(context).width * 0.8,
+                  child: ElevatedButton(
+                      onPressed: () =>
+                          controller.readDataFromBLE(connectedDevice),
+                      child: const Text('Read')),
+                ),
               ],
             ),
           ),
