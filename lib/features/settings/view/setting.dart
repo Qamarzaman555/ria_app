@@ -91,8 +91,7 @@ class Setting extends StatelessWidget {
                   height: 50,
                   width: MediaQuery.sizeOf(context).width * 0.5,
                   child: ElevatedButton(
-                    onPressed: () => Get.find<SettingController>()
-                        .writeThresholdDataToBLE(connectedDevice),
+                    onPressed: () {},
                     child: Text('Apply',
                         style: AppStyles.buttonText.apply(color: Colors.black)),
                   ),

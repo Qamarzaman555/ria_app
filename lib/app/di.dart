@@ -15,7 +15,6 @@ import '../features/settings/controller/setting_controller.dart';
 
 di() {
   Get.put(BluetoothController());
-  Get.put(SettingController());
   Get.put(HomeController());
   Get.put(SettingController());
 }
