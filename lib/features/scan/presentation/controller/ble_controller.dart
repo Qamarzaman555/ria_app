@@ -90,6 +90,7 @@ class BluetoothController extends GetxController {
       Get.to(Home(connectedDevice: connectedDevice!));
 
       Get.find<HomeController>().readDataFromBLE(connectedDevice!);
+      Get.find<HomeController>().readChartDataFromBLE(connectedDevice!);
     } catch (e) {
       Get.snackbar('Connection Error', 'Failed to connect to device');
       AppFullScreenLoader.stopLoading();

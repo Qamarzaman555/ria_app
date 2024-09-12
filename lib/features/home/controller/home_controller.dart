@@ -8,6 +8,7 @@ class HomeController extends GetxController {
   RxInt currentReading = 0.obs;
   RxString airQualityLabel = 'Good'.obs;
   Rx<Color> airQualityColor = Colors.green.obs;
+  RxList<int> chartData = <int>[].obs;
 
   final String serviceUUID = "00002523-1212-efde-2523-785feabcd223";
   final String charUUIDCO2 =
@@ -19,17 +20,17 @@ class HomeController extends GetxController {
 
   final DecodeRead _decoder = DecodeRead(); // Instantiate DecodeRead
 
-  @override
-  void onInit() {
-    super.onInit();
-    updateAirQuality(currentReading.value);
-  }
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   updateAirQuality(currentReading.value);
+  // }
 
-  // Function to generate random readings between 0 and 3000
-  void updateCurrentReading() {
-    updateAirQuality(
-        currentReading.value); // Update the air quality based on reading
-  }
+  // // Function to generate random readings between 0 and 3000
+  // void updateCurrentReading() {
+  //   updateAirQuality(
+  //       currentReading.value); // Update the air quality based on reading
+  // }
 
   // Function to determine air quality and corresponding color
   void updateAirQuality(int reading) {
@@ -81,6 +82,41 @@ class HomeController extends GetxController {
         if (decodedValue.isNotEmpty) {
           currentReading.value = decodedValue.first;
         }
+      }
+
+      updateAirQuality(currentReading.value);
+    } catch (e) {
+      debugPrint("Something went wrong! $e");
+    }
+  }
+
+  Future<void> readChartDataFromBLE(BluetoothDevice device) async {
+    try {
+      if (device.isConnected) {
+        List<BluetoothService> services = await device.discoverServices();
+        debugPrint("Total Services: ${services.length}");
+
+        // Filter for the service with the matching UUID
+        BluetoothService? targetService = services.firstWhere(
+          (service) => service.uuid.toString() == serviceUUID,
+        );
+
+        debugPrint("Found target service with UUID: $serviceUUID");
+
+        // Filter for the characteristic with the matching UUID
+        BluetoothCharacteristic? targetCharacteristic =
+            targetService.characteristics.firstWhere(
+          (characteristic) => characteristic.uuid.toString() == charUUIDCO2_24h,
+        );
+
+        debugPrint("Found target characteristic with UUID: $charUUIDCO2_24h");
+
+        // Read the value from the characteristic
+        List<int> value = await targetCharacteristic.read();
+        debugPrint('Characteristic value: $value');
+
+        // Use the uInt16B method from DecodeRead class to decode the value
+        chartData.value = _decoder.uInt16L(value);
       }
 
       updateAirQuality(currentReading.value);
