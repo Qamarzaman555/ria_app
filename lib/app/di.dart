@@ -15,8 +15,15 @@ import '../features/settings/controller/setting_controller.dart';
 // }
 
 di() {
+  /// For Permission & Scanning
   Get.put(ScanAndPersmissionController());
+
+  /// Connects to BLE Devices
   Get.put(ConnectionController());
+
+  /// Reads & Notifies BLE Device data & Charts Data
   Get.put(HomeController());
+
+  /// Read & Write Threshold
   Get.put(SettingController());
 }

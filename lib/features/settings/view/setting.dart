@@ -14,7 +14,7 @@ class Setting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final SettingController sliderController = Get.find();
+    final SettingController controller = Get.find();
     return Scaffold(
       /// -- Linear Gradient Background
       body: AppBackground(
@@ -65,16 +65,16 @@ class Setting extends StatelessWidget {
                 Text('Set Alert Threshold',
                     style: AppStyles.ubuntuHeadlineSmall),
                 Obx(() => Text(
-                    '${sliderController.sliderValue.value.toStringAsFixed(0)}ppm',
+                    '${controller.sliderValue.value.toStringAsFixed(0)}ppm',
                     style: AppStyles.ubuntuHeadlineLarge)),
                 SizedBox(
                   height: MediaQuery.sizeOf(context).height * 0.35,
                   child: RotatedBox(
                     quarterTurns: 3, // Rotate by 90 degrees
                     child: Obx(() => Slider(
-                          value: sliderController.sliderValue.value,
+                          value: controller.sliderValue.value,
                           onChanged: (value) {
-                            sliderController.updateSliderValue(value);
+                            controller.updateSliderValue(value.toInt());
                           },
                           min: 500,
                           max: 3000,
@@ -90,7 +90,11 @@ class Setting extends StatelessWidget {
                   height: 50,
                   width: MediaQuery.sizeOf(context).width * 0.5,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      controller.writeThresholdDataToBLE(connectedDevice,
+                          controller.sliderValue.value.toInt());
+                      controller.readTreshholdDataFromBLE(connectedDevice);
+                    },
                     child: Text('Apply',
                         style: AppStyles.buttonText.apply(color: Colors.black)),
                   ),
