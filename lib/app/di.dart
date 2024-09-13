@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 import '../features/connected_device/controller/connection_controller.dart';
 import '../features/home/controller/home_controller.dart';
-import '../features/scan/presentation/controller/ble_controller.dart';
+import '../features/scan/presentation/controller/scan_controller.dart';
 import '../features/settings/controller/setting_controller.dart';
 
 /// -- Dependancy Injection

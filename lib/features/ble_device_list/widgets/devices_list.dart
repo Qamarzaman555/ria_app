@@ -6,7 +6,7 @@ import 'package:ria_app/features/connected_device/controller/connection_controll
 import '../../../common/bluetooth_diabled/bluetooth_offscreen.dart';
 import '../../../utils/app_sizes.dart';
 import '../../../utils/app_styles.dart';
-import '../../scan/presentation/controller/ble_controller.dart';
+import '../../scan/presentation/controller/scan_controller.dart';
 import 'device_list_tile.dart';
 
 class DevicesList extends StatelessWidget {

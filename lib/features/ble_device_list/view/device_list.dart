@@ -5,7 +5,7 @@ import '../../../common/app_background/app_background.dart';
 import '../../../common/app_headers/app_header.dart';
 import '../../../utils/app_sizes.dart';
 import '../../../utils/app_styles.dart';
-import '../../scan/presentation/controller/ble_controller.dart';
+import '../../scan/presentation/controller/scan_controller.dart';
 import '../widgets/devices_list.dart';
 import '../widgets/scan_devices_button.dart';
 

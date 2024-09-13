@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../utils/app_styles.dart';
-import '../controller/ble_controller.dart';
+import '../controller/scan_controller.dart';
 
 class FooterButtunWidget extends StatelessWidget {
   const FooterButtunWidget({

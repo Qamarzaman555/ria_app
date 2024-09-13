@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../common/app_background/app_background.dart';
-import '../controller/ble_controller.dart';
+import '../controller/scan_controller.dart';
 import '../widgets/footer_button_widget.dart';
 import '../widgets/header_widget.dart';
 

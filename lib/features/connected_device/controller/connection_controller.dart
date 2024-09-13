@@ -5,7 +5,7 @@ import '../../../utils/popups/app_full_screen_loader.dart';
 import '../../connecting/view/connecting.dart';
 import '../../home/controller/home_controller.dart';
 import '../../home/view/home.dart';
-import '../../scan/presentation/controller/ble_controller.dart';
+import '../../scan/presentation/controller/scan_controller.dart';
 import '../../scan/presentation/view/scan.dart';
 import '../../settings/controller/setting_controller.dart';
 
