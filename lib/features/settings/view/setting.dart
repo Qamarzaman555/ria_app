@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:ria_app/common/app_headers/app_header.dart';
 
 import '../../../common/app_background/app_background.dart';
+import '../../../core/local_storage/shared_pref.dart';
 import '../../../utils/app_sizes.dart';
 import '../../../utils/app_styles.dart';
 import '../controller/setting_controller.dart';
@@ -15,6 +16,9 @@ class Setting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final SettingController controller = Get.find();
+    final SharedPrefsService prefsService = SharedPrefsService();
+    prefsService.getDeviceName(connectedDevice.remoteId.toString());
+    TextEditingController nameController = TextEditingController();
     return Scaffold(
       /// -- Linear Gradient Background
       body: AppBackground(
@@ -41,20 +45,26 @@ class Setting extends StatelessWidget {
                 /// Update Device Info Field
                 SizedBox(
                   width: MediaQuery.sizeOf(context).width * 0.7,
-                  child: TextFormField(
-                    initialValue: connectedDevice.platformName,
-                    style: AppStyles.bodyMedium,
-                    decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          horizontal: AppSizes
-                              .defaultSpace), // Similar padding as before
-                      filled: true,
-                      fillColor: Colors
-                          .white24, // Background color similar to the Container
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide
-                            .none, // Removes the border to match Container look
+                  child: Obx(
+                    () => TextFormField(
+                      // initialValue: connectedDevice.platformName,
+                      controller: nameController
+                        ..text = prefsService.deviceName.value.isNotEmpty
+                            ? prefsService.deviceName.value
+                            : connectedDevice.platformName,
+                      style: AppStyles.bodyMedium,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(
+                            horizontal: AppSizes
+                                .defaultSpace), // Similar padding as before
+                        filled: true,
+                        fillColor: Colors
+                            .white24, // Background color similar to the Container
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(20),
+                          borderSide: BorderSide
+                              .none, // Removes the border to match Container look
+                        ),
                       ),
                     ),
                   ),
@@ -91,26 +101,20 @@ class Setting extends StatelessWidget {
                   width: MediaQuery.sizeOf(context).width * 0.5,
                   child: ElevatedButton(
                     onPressed: () {
+                      prefsService.saveDeviceName(
+                          connectedDevice.remoteId.toString(),
+                          nameController.text.trim());
                       controller.writeThresholdDataToBLE(connectedDevice,
                           controller.sliderValue.value.toInt());
                       controller.readTreshholdDataFromBLE(connectedDevice);
+                      // Return the updated name to Home screen
+                      Get.back(result: nameController.text.trim());
                     },
                     child: Text('Apply',
                         style: AppStyles.buttonText.apply(color: Colors.black)),
                   ),
                 ),
                 const SizedBox(height: AppSizes.spaceBtwItems),
-
-                // /// Disconnect Device Button
-                // SizedBox(
-                //   height: 50,
-                //   width: MediaQuery.sizeOf(context).width * 0.5,
-                //   child: ElevatedButton(
-                //     onPressed: () =>
-                //         Get.find<BluetoothController>().disconnectDevice(),
-                //     child: Text('Disconnect', style: AppStyles.buttonText),
-                //   ),
-                // )
               ],
             ),
           ),

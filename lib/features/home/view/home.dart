@@ -5,19 +5,34 @@ import 'package:ria_app/common/app_background/app_background.dart';
 import 'package:ria_app/common/app_headers/app_header.dart';
 import 'package:ria_app/features/home/widgets/day_hour_chart.dart';
 import 'package:ria_app/features/home/widgets/weekly_chart.dart';
+import '../../../core/local_storage/shared_pref.dart';
 import '../../../utils/app_sizes.dart';
 import '../../../utils/app_styles.dart';
 import '../../settings/view/setting.dart';
 import '../controller/home_controller.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key, required this.connectedDevice});
   final BluetoothDevice connectedDevice;
 
   @override
-  Widget build(BuildContext context) {
-    final HomeController controller = Get.find<HomeController>();
+  State<Home> createState() => _HomeState();
+}
 
+class _HomeState extends State<Home> {
+  SharedPrefsService prefsService = SharedPrefsService();
+  HomeController controller = Get.find<HomeController>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Fetch device name
+    prefsService.getDeviceName(widget.connectedDevice.remoteId.toString());
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       /// -- Linear Gradient Background
       body: AppBackground(
@@ -33,11 +48,23 @@ class Home extends StatelessWidget {
                 /// Header
                 AppHeader(
                   haveAction: true,
-                  actionOnPressed: () =>
-                      Get.to(Setting(connectedDevice: connectedDevice)),
-                  header: Text(connectedDevice.platformName,
-                      textAlign: TextAlign.center,
-                      style: AppStyles.headlineMedium),
+                  actionOnPressed: () async {
+                    final updatedName = await Get.to(
+                        () => Setting(connectedDevice: widget.connectedDevice));
+
+                    // If a name is returned, update the state
+                    if (updatedName != null) {
+                      prefsService.deviceName.value = updatedName;
+                    }
+                  },
+                  header: Obx(
+                    () => Text(
+                        prefsService.deviceName.value.isNotEmpty
+                            ? prefsService.deviceName.value
+                            : widget.connectedDevice.platformName,
+                        textAlign: TextAlign.center,
+                        style: AppStyles.headlineMedium),
+                  ),
                 ),
                 const SizedBox(height: AppSizes.spaceBtwItems),
 

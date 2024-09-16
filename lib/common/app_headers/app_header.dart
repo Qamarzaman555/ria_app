@@ -8,10 +8,12 @@ class AppHeader extends StatelessWidget {
     super.key,
     required this.header,
     this.actionOnPressed,
+    this.leadingOnPressed,
     this.haveAction = false,
   });
   final Widget header;
   final VoidCallback? actionOnPressed;
+  final VoidCallback? leadingOnPressed;
   final bool haveAction;
 
   @override
@@ -25,7 +27,7 @@ class AppHeader extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     IconButton(
-                        onPressed: () => Get.back(),
+                        onPressed: leadingOnPressed ?? () => Get.back(),
                         icon: const Icon(
                           Icons.arrow_back,
                           size: 28,

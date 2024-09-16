@@ -23,6 +23,7 @@ dependencies:
   google_fonts: ^6.2.1
   syncfusion_flutter_charts: ^26.2.14
   fl_chart: ^0.69.0
+  shared_preferences: ^2.3.2
 
   # ------------- Packages End ------------ #
 
