@@ -18,6 +18,17 @@ class HomeStoredData extends StatefulWidget {
 }
 
 class HomeStoredDataState extends State<HomeStoredData> {
+  @override
+  void initState() {
+    super.initState();
+
+    if (homeController.historyBox.isNotEmpty) {
+      homeController.updateAirQuality((homeController.historyBox
+              .get('Data${selectedIndex.value}') as RecordedData)
+          .currentCO2);
+    }
+  }
+
   final HomeController homeController = Get.find<HomeController>();
   final ConnectionController conController = Get.find<ConnectionController>();
   RxInt selectedIndex = 0.obs;

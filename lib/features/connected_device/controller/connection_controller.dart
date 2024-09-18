@@ -19,6 +19,7 @@ class ConnectionController extends GetxController {
   BluetoothDevice? connectedDevice;
   RxList<RecordedData> recordedBox = <RecordedData>[].obs;
   late DataRepository dataRepository;
+  late Box box;
 
   @override
   void onInit() {
@@ -27,7 +28,7 @@ class ConnectionController extends GetxController {
   }
 
   Future<void> loadDataFromLocal() async {
-    var box = await Hive.openBox('History');
+    box = await Hive.openBox('History');
     dataRepository = DataRepository(box);
   }
 
@@ -68,7 +69,12 @@ class ConnectionController extends GetxController {
 
   // Periodic data recording every 10 seconds
   void startRecording() {
-    int i = recordedBox.length;
+    int i;
+    if (box.isNotEmpty) {
+      i = box.values.length;
+    } else {
+      i = recordedBox.length;
+    }
 
     recordingTimer = Timer.periodic(const Duration(seconds: 10), (timer) async {
       var homeController = Get.find<HomeController>();
