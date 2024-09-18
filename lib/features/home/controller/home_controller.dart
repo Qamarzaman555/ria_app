@@ -91,7 +91,7 @@ class HomeController extends GetxController {
         // Subscribe to notifications if the characteristic supports it
         if (targetCharacteristic.properties.notify) {
           await targetCharacteristic.setNotifyValue(true);
-          targetCharacteristic.lastValueStream.listen((value) {
+          targetCharacteristic.onValueReceived.listen((value) {
             log('Received notification value: $value');
 
             // Optionally decode the notification value if needed
