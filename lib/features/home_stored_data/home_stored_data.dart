@@ -7,6 +7,8 @@ import '../../../utils/app_sizes.dart';
 import '../../../utils/app_styles.dart';
 import '../../common/app_models/data_recorded_model.dart';
 import '../connected_device/controller/connection_controller.dart';
+import '../home/widgets/day_hour_chart.dart';
+import '../home/widgets/weekly_chart.dart';
 
 class HomeStoredData extends StatefulWidget {
   const HomeStoredData({super.key});
@@ -70,28 +72,42 @@ class HomeStoredDataState extends State<HomeStoredData> {
                     )),
                 const SizedBox(height: AppSizes.spaceBtwSections),
 
-                // Display Hive recorded data
-                homeController.historyBox.isNotEmpty
-                    ? Obx(
-                        () => Column(
-                          children: [
-                            Text(
-                              'Timestamp: ${(homeController.historyBox.get('Data${selectedIndex.value}') as RecordedData).timestamp}',
-                              style: AppStyles.ubuntuHeadlineSmall,
-                            ),
-                            Text(
-                              'CO2 Level: ${(homeController.historyBox.get('Data${selectedIndex.value}') as RecordedData).currentCO2} ppm',
-                              style: AppStyles.ubuntuHeadlineSmall,
-                            ),
-                            Text(
-                              'Device: ${(homeController.historyBox.get('Data${selectedIndex.value}') as RecordedData).deviceName}',
-                              style: AppStyles.ubuntuHeadlineSmall,
-                            ),
-                          ],
-                        ),
-                      )
-                    : const Text('No recorded data available'),
-                const SizedBox(height: AppSizes.spaceBtwSections),
+                /// 24 Hours Readings Chart
+                SizedBox(
+                  height: 225,
+                  width: MediaQuery.sizeOf(context).width * 0.9,
+                  child: Obx(() {
+                    if (homeController.historyBox.isNotEmpty) {
+                      List<int> values = (homeController.historyBox
+                              .getAt(selectedIndex.value) as RecordedData)
+                          .co2_24h;
+                      return Chart24Hours(
+                        yValues: values.map((e) => e.toDouble()).toList(),
+                      );
+                    } else {
+                      return const Center(child: Text('No Data'));
+                    }
+                  }),
+                ),
+                const SizedBox(height: AppSizes.spaceBtwItems),
+
+                /// Weekly Readings Chart
+                SizedBox(
+                  height: 225,
+                  width: MediaQuery.sizeOf(context).width * 0.9,
+                  child: Obx(() {
+                    if (homeController.historyBox.isNotEmpty) {
+                      List<int> weeklyValues = (homeController.historyBox
+                              .getAt(selectedIndex.value) as RecordedData)
+                          .co2_7d;
+                      return WeeklyChart(
+                        yValues: weeklyValues.map((e) => e.toDouble()).toList(),
+                      );
+                    } else {
+                      return const Center(child: Text('No Data'));
+                    }
+                  }),
+                ),
 
                 // Index Navigation
                 homeController.historyBox.isNotEmpty
@@ -103,6 +119,11 @@ class HomeStoredDataState extends State<HomeStoredData> {
                               onPressed: () {
                                 if (selectedIndex.value > 0) {
                                   selectedIndex.value--;
+                                  homeController.updateAirQuality(
+                                      (homeController.historyBox.get(
+                                                  'Data${selectedIndex.value}')
+                                              as RecordedData)
+                                          .currentCO2);
                                 }
                               },
                               icon: Obx(() => Icon(Icons.arrow_back_ios,
@@ -125,6 +146,11 @@ class HomeStoredDataState extends State<HomeStoredData> {
                                 if (selectedIndex.value <
                                     homeController.historyBox.length - 1) {
                                   selectedIndex.value++;
+                                  homeController.updateAirQuality(
+                                      (homeController.historyBox.get(
+                                                  'Data${selectedIndex.value}')
+                                              as RecordedData)
+                                          .currentCO2);
                                 }
                               },
                               icon: Obx(() => Icon(Icons.arrow_forward_ios,
