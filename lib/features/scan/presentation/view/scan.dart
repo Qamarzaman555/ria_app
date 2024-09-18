@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../common/app_background/app_background.dart';
+import '../../../../utils/app_sizes.dart';
+import '../../../../utils/app_styles.dart';
+import '../../../connected_device/controller/connection_controller.dart';
+import '../../../home_stored_data/home_stored_data.dart';
 import '../controller/scan_controller.dart';
 import '../widgets/footer_button_widget.dart';
 import '../widgets/header_widget.dart';
@@ -14,19 +18,44 @@ class Scan extends StatelessWidget {
     return Scaffold(
       /// -- Linear Gradient Background
       body: AppBackground(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            /// App Header
-            const HeaderWidget(),
+        child: Padding(
+          padding:
+              const EdgeInsets.symmetric(vertical: AppSizes.defaultSpace * 2),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              /// App Header
+              const HeaderWidget(),
+              const Spacer(),
 
-            /// Center BluetoothIcon
-            const Icon(Icons.bluetooth, size: 100, color: Colors.white),
+              /// Center BluetoothIcon
+              const Icon(Icons.bluetooth, size: 100, color: Colors.white),
+              const Spacer(),
 
-            /// Footer (Text & Scan Button)
-            FooterButtunWidget(controller: controller),
-          ],
+              /// Footer (Text & Scan Button)
+              Column(
+                children: [
+                  FooterButtunWidget(controller: controller),
+
+                  /// Hive Local Storage text button which will show the data stored in hive storage
+                  TextButton(
+                      onPressed: () {
+                        final controller = Get.find<ConnectionController>();
+                        if (controller.box!.isEmpty) {
+                          // Show toast
+                          Get.snackbar('No data found',
+                              'There is no recorded data available.');
+                        } else {
+                          // Navigate to playback page
+                          Get.to(() => const HomeStoredData());
+                        }
+                      },
+                      child:
+                          Text("Local Storage", style: AppStyles.bodyMedium)),
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

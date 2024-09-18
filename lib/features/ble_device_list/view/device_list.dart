@@ -19,22 +19,26 @@ class DeviceListScreen extends StatelessWidget {
 
         /// -- Linear Gradient Background
         body: AppBackground(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: AppSizes.defaultSpace),
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: AppSizes.defaultSpace),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: AppSizes.defaultSpace),
 
-                /// Header
-                child: AppHeader(
-                  header: Text("Available Devices",
-                      textAlign: TextAlign.center,
-                      style: AppStyles.headlineMedium),
+                  /// Header
+                  child: AppHeader(
+                    header: Text("Available Devices",
+                        textAlign: TextAlign.center,
+                        style: AppStyles.headlineMedium),
+                  ),
                 ),
-              ),
 
-              /// Device List View
-              const DevicesList(),
-            ],
+                /// Device List View
+                const DevicesList(),
+              ],
+            ),
           ),
         ),
 

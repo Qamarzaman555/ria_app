@@ -10,11 +10,13 @@ class AppHeader extends StatelessWidget {
     this.actionOnPressed,
     this.leadingOnPressed,
     this.haveAction = false,
+    this.actionIcon,
   });
   final Widget header;
   final VoidCallback? actionOnPressed;
   final VoidCallback? leadingOnPressed;
   final bool haveAction;
+  final IconData? actionIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +37,8 @@ class AppHeader extends StatelessWidget {
                         )),
                     IconButton(
                         onPressed: actionOnPressed,
-                        icon: const Icon(
-                          Icons.settings_outlined,
+                        icon: Icon(
+                          actionIcon ?? Icons.settings_outlined,
                           size: 28,
                           color: Colors.white,
                         )),

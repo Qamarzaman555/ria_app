@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
 import 'package:ria_app/common/app_headers/app_header.dart';
+import 'package:ria_app/features/connected_device/controller/connection_controller.dart';
 
 import '../../../common/app_background/app_background.dart';
 import '../../../core/local_storage/shared_pref.dart';
@@ -33,6 +34,10 @@ class Setting extends StatelessWidget {
               children: [
                 /// Header
                 AppHeader(
+                  haveAction: true,
+                  actionIcon: Icons.bluetooth_disabled,
+                  actionOnPressed: () =>
+                      Get.find<ConnectionController>().disconnectDevice(),
                   header: Text('Settings',
                       textAlign: TextAlign.center,
                       style: AppStyles.headlineMedium),
