@@ -187,6 +187,6 @@ class HomeController extends GetxController {
     }
   }
 
-  // Create a DateFormat instance
-  DateFormat formatter = DateFormat('dd MMM, yy HH:mm:ss');
+  // Formatter
+  DateFormat formatter = DateFormat('dd MMM, yy hh:mm:ss a');
 }

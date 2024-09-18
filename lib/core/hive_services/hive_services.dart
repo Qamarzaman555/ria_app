@@ -4,10 +4,10 @@ import 'package:hive/hive.dart';
 
 import '../../common/app_models/data_recorded_model.dart';
 
-class DataRepository {
+class HiveServices {
   final Box _box;
 
-  DataRepository(this._box);
+  HiveServices(this._box);
 
   Future<void> storeData(RecordedData data, int index) async {
     await _box.put('Data$index', data);

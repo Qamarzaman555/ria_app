@@ -11,6 +11,7 @@ import '../../connecting/view/connecting.dart';
 import '../../home/controller/home_controller.dart';
 import '../../home/view/home.dart';
 import '../../scan/presentation/view/scan.dart';
+import '../../settings/controller/setting_controller.dart';
 
 class ConnectionController extends GetxController {
   Timer? recordingTimer;
@@ -18,7 +19,7 @@ class ConnectionController extends GetxController {
   RxBool isConnected = false.obs;
   BluetoothDevice? connectedDevice;
   RxList<RecordedData> recordedBox = <RecordedData>[].obs;
-  late DataRepository dataRepository;
+  late HiveServices hiveServices;
   late Box box;
 
   @override
@@ -29,7 +30,7 @@ class ConnectionController extends GetxController {
 
   Future<void> loadDataFromLocal() async {
     box = await Hive.openBox('History');
-    dataRepository = DataRepository(box);
+    hiveServices = HiveServices(box);
   }
 
   Future<void> connectToDevice(BluetoothDevice device) async {
@@ -45,11 +46,12 @@ class ConnectionController extends GetxController {
       AppFullScreenLoader.stopLoading();
       Get.to(Home(connectedDevice: connectedDevice!));
 
-      var homeController = Get.find<HomeController>();
+      HomeController homeController = Get.find<HomeController>();
+      SettingController settingController = Get.find<SettingController>();
       homeController.readAndSubscribeToNotifications(connectedDevice!);
       homeController.readChartDataFromBLE(connectedDevice!);
       homeController.readWeeklyChartDataFromBLE(connectedDevice!);
-
+      settingController.readTreshholdDataFromBLE(connectedDevice!);
       startRecording();
     } catch (e) {
       Get.snackbar('Connection Error', 'Failed to connect to device');
@@ -87,7 +89,7 @@ class ConnectionController extends GetxController {
       );
 
       recordedBox.add(data);
-      await dataRepository.storeData(data, i);
+      await hiveServices.storeData(data, i);
       i++;
     });
   }
