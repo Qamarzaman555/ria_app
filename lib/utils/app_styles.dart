@@ -28,11 +28,11 @@ class AppStyles {
       .bodyLarge!
       .apply(color: Colors.white, fontWeightDelta: 2);
 
-  static TextStyle ubuntuHeadlineMedium = GoogleFonts.ubuntu(
-      fontSize: 24, fontWeight: FontWeight.w700, color: Colors.white);
-
   static TextStyle ubuntuHeadlineSmall = GoogleFonts.ubuntu(
       fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white);
+
+  static TextStyle ubuntuHeadlineMedium = GoogleFonts.ubuntu(
+      fontSize: 24, fontWeight: FontWeight.w700, color: Colors.white);
 
   static TextStyle ubuntuHeadlineLarge = GoogleFonts.ubuntu(
       fontSize: 36, fontWeight: FontWeight.w700, color: Colors.white);

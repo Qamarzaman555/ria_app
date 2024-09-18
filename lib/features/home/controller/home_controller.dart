@@ -1,8 +1,9 @@
 import 'dart:developer';
-
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 import '../../../core/decode_data/decode_data.dart';
 
@@ -12,6 +13,13 @@ class HomeController extends GetxController {
   Rx<Color> airQualityColor = Colors.green.obs;
   RxList<int> chartData24h = <int>[].obs;
   RxList<int> chartDataweekly = <int>[].obs;
+  late Box historyBox;
+
+  @override
+  void onInit() {
+    super.onInit();
+    _openBox();
+  }
 
   final String serviceUUID = "00002523-1212-efde-2523-785feabcd223";
   final String charUUIDCO2 =
@@ -22,6 +30,10 @@ class HomeController extends GetxController {
       "00002526-1212-efde-2523-785feabcd223"; // 7d CO2 levels
 
   final DecodeRead _decoder = DecodeRead();
+
+  Future<void> _openBox() async {
+    historyBox = await Hive.openBox('History');
+  }
 
   // Function to determine air quality and corresponding color
   void updateAirQuality(int reading) {
@@ -174,4 +186,7 @@ class HomeController extends GetxController {
       debugPrint("Something went wrong! $e");
     }
   }
+
+  // Create a DateFormat instance
+  DateFormat formatter = DateFormat('dd MMM, yy HH:mm:ss');
 }
