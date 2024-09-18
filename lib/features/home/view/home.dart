@@ -97,10 +97,12 @@ class _HomeState extends State<Home> {
                 SizedBox(
                   height: 225,
                   width: MediaQuery.sizeOf(context).width * 0.9,
-                  child: Chart24Hours(
-                    yValues: controller.chartData24h
-                        .map((e) => e.toDouble())
-                        .toList(),
+                  child: Obx(
+                    () => Chart24Hours(
+                      yValues: controller.chartData24h
+                          .map((e) => e.toDouble())
+                          .toList(),
+                    ),
                   ),
                 ),
                 const SizedBox(height: AppSizes.spaceBtwItems),
@@ -109,10 +111,12 @@ class _HomeState extends State<Home> {
                 SizedBox(
                   height: 225,
                   width: MediaQuery.sizeOf(context).width * 0.9,
-                  child: WeeklyChart(
-                    yValues: controller.chartDataweekly
-                        .map((e) => e.toDouble())
-                        .toList(),
+                  child: Obx(
+                    () => WeeklyChart(
+                      yValues: controller.chartDataweekly
+                          .map((e) => e.toDouble())
+                          .toList(),
+                    ),
                   ),
                 ),
 
