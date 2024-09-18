@@ -26,7 +26,10 @@ class HomeStoredDataState extends State<HomeStoredData> {
       homeController.updateAirQuality((homeController.historyBox
               .get('Data${selectedIndex.value}') as RecordedData)
           .currentCO2);
+
+      selectedIndex.value = homeController.historyBox.length - 1;
     }
+    setState(() {});
   }
 
   final HomeController homeController = Get.find<HomeController>();
